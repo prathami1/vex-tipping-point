@@ -1,20 +1,17 @@
 #include "main.h"
 
-void setDrive(double leftBackW, double rightBackW, double leftFrontW, double rightFrontW) {
+void setDrive(double leftBackW, double rightBackW, double leftFrontW, double rightFrontW) 
+{
     leftBack = leftBackW;
     leftFront = leftFrontW;
     rightBack = rightBackW;
     rightFront = rightFrontW;
 }
 
-void setDriveMotors() {
-
-
-
+void setDriveMotors() 
+{
     double leftJoystickY = -controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) * (200/127);
     double rightJoystickX = -controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) * (200/127);
-
-
 
     if (abs(leftJoystickY) < 20) leftJoystickY = 0;
     if (abs(rightJoystickX) < 20) rightJoystickX = 0;
@@ -31,5 +28,4 @@ void setDriveMotors() {
     rF = (-leftJoystickY + rightJoystickX) * (200/127);
 
     setDrive(lB, rB, lF, rF);
-
 }
