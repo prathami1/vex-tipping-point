@@ -39,12 +39,13 @@ void initialize() {
 	rightFourBar.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	mogoLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	clamp.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-// function to move the mogo lift for auton 
-// auton for diff sides of the field 
+	// function to move the mogo lift for auton 
+	// auton for diff sides of the field 
 }
 
 void movemogo(int x, bool b)
 {
+	//x is time delayed after moving mogo lift, b is if mogo lift moves up or down (up is true, down is false)
 	if (b)
 	{
 		mogoLift.move_velocity(-50);
@@ -57,15 +58,14 @@ void movemogo(int x, bool b)
 	}
 }
 
-void auton() {
+void edit() {
 	movemogo(200, false);
 	chassis->moveDistanceAsync(-75_in);
 	pros::delay(2200);
 	movemogo(200, false);
 }
 
-// auton for diff sides of the field 
-void Left(){
+void basic(){
 	chassis->moveDistanceAsync(5.75_ft);
 	movemogo(200, false);
 	chassis->waitUntilSettled();
@@ -75,38 +75,22 @@ void Left(){
 	chassis->waitUntilSettled();
 }
 
-void basic()
-{
-	chassis->moveDistanceAsync(5.5_ft); //moves bot forward asyncronously
-	movemogo(200, false); //deploys mobile goal
-	chassis->waitUntilSettled(); //waits until drive is settled
-	movemogo(200, true); //drops mobile goal on the ground
-	chassis->moveDistanceAsync(-.2_m); //moves backward with mobile goal picked up
-	movemogo(200, false); //leaves mobile goal alone
-	chassis->moveDistanceAsync(-.2_m); //moves away from mobile goal
-	chassis->waitUntilSettled(); //waits until drive is settled
-}
-
-void Right()
-{
-	
-}
-
 void autonomous() 
 {
-	auton();
+	basic();
 }
 
 
-void opcontrol() {
-	while (true) {
+void opcontrol() 
+{
+	while (true) 
+	{
 
 		leftFourBar.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 		rightFourBar.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 		mogoLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 		clamp.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-		//code to control the drive
 		setDriveMotors();
 
 		setFourBar();
