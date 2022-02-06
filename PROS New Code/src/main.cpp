@@ -16,7 +16,7 @@ Controller joystick(ControllerId::master);
 Motor wheelLB(LEFT_BACK_DRIVE_PORT, true, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
 Motor wheelLF(LEFT_FRONT_DRIVE_PORT, true, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
 Motor wheelRB(RIGHT_BACK_DRIVE_PORT, false, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
-Motor wheelRF(RIGHT_FRONT_DRIVE_PORT, false , AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
+Motor wheelRF(RIGHT_FRONT_DRIVE_PORT, false, AbstractMotor::gearset::green, AbstractMotor::encoderUnits::degrees);
 
 // Chassis controller 
 std::shared_ptr<okapi::ChassisController> chassis = ChassisControllerBuilder()
@@ -47,29 +47,36 @@ void movemogo(int x, bool b)
 {
 	if (b)
 	{
-		mogoLift.move_velocity(-40);
+		mogoLift.move_velocity(-50);
 		pros::delay(x);
 	}
 	else if (!b)
 	{
-		mogoLift.move_velocity(40);
+		mogoLift.move_velocity(50);
 		pros::delay(x);
 	}
 }
 
+void auton() {
+	movemogo(200, false);
+	chassis->moveDistanceAsync(-75_in);
+	pros::delay(2200);
+	movemogo(200, false);
+}
+
 // auton for diff sides of the field 
 void Left(){
-	chassis->moveDistanceAsync(-5.75_ft);
+	chassis->moveDistanceAsync(5.75_ft);
 	movemogo(200, false);
-	//chassis->waitUntilSettled();
-	pros::delay(200);
+	chassis->waitUntilSettled();
 	movemogo(200,true);
-	chassis->moveDistanceAsync(2_ft);
+	chassis->moveDistanceAsync(-2_ft);
 	movemogo(200, false);
 	chassis->waitUntilSettled();
 }
 
-void basic(){
+void basic()
+{
 	chassis->moveDistanceAsync(5.5_ft); //moves bot forward asyncronously
 	movemogo(200, false); //deploys mobile goal
 	chassis->waitUntilSettled(); //waits until drive is settled
@@ -80,12 +87,14 @@ void basic(){
 	chassis->waitUntilSettled(); //waits until drive is settled
 }
 
-void Right(){
+void Right()
+{
 	
 }
 
-void autonomous() {
-	Left();
+void autonomous() 
+{
+	auton();
 }
 
 

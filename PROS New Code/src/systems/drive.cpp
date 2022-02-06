@@ -9,8 +9,12 @@ void setDrive(double leftBackW, double rightBackW, double leftFrontW, double rig
 
 void setDriveMotors() {
 
-    double leftJoystickY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) * (200/127);
-    double rightJoystickX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) * (200/127);
+
+
+    double leftJoystickY = -controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) * (200/127);
+    double rightJoystickX = -controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) * (200/127);
+
+
 
     if (abs(leftJoystickY) < 20) leftJoystickY = 0;
     if (abs(rightJoystickX) < 20) rightJoystickX = 0;
@@ -21,50 +25,10 @@ void setDriveMotors() {
     double rB = 0;
     double rF = 0;
 
-    if (leftJoystickY != 0 && rightJoystickX == 0) {
-        lB = -leftJoystickY;
-        lF = -leftJoystickY;
-        rB = leftJoystickY;
-        rF = leftJoystickY;
-    }
-
-    if (rightJoystickX != 0 && leftJoystickY == 0) {
-        lB = -rightJoystickX;
-        lF = -rightJoystickX;
-        rB = -rightJoystickX;
-        rF = -rightJoystickX;
-    }
-
-    if (leftJoystickY != 0 && rightJoystickX != 0){
-        if (leftJoystickY > 0) {
-            if (rightJoystickX > 0) {
-                lB = -rightJoystickX;
-                lF = -rightJoystickX;
-                rB = rightJoystickX * 0.5;
-                rF = rightJoystickX * 0.5;
-            }
-            if (rightJoystickX < 0) {
-                lB = rightJoystickX * 0.5;
-                lF = rightJoystickX * 0.5;
-                rB = -rightJoystickX;
-                rF = -rightJoystickX;
-            }
-        }
-        if (leftJoystickY < 0) {
-            if (rightJoystickX > 0) {
-                lB = -rightJoystickX;
-                lF = -rightJoystickX;
-                rB = rightJoystickX * 0.5;
-                rF = rightJoystickX * 0.5;
-            }
-            if (rightJoystickX < 0) {
-                lB = rightJoystickX * 0.5;
-                lF = rightJoystickX * 0.5;
-                rB = -rightJoystickX;
-                rF = -rightJoystickX;
-            }
-        }
-    }
+    lB = (leftJoystickY + rightJoystickX) * (200/127);
+    lF = (leftJoystickY + rightJoystickX) * (200/127);
+    rB = (-leftJoystickY + rightJoystickX) * (200/127);
+    rF = (-leftJoystickY + rightJoystickX) * (200/127);
 
     setDrive(lB, rB, lF, rF);
 
