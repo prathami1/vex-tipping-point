@@ -26,11 +26,11 @@ std::shared_ptr<okapi::ChassisController> chassis = ChassisControllerBuilder()
 	).withDimensions(
 		AbstractMotor::gearset::green,
 		{
-			{4_in, 18_in},
+			{4_in, 14.4_in},
 			static_cast<int32_t>(imev5GreenTPR)
 		}
-	).withMaxVelocity(200).build();
-
+	).withMaxVelocity(125)
+	.build();
 
 void initialize() {
 	pros::lcd::initialize();
@@ -39,8 +39,6 @@ void initialize() {
 	rightFourBar.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	mogoLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	clamp.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	// function to move the mogo lift for auton 
-	// auton for diff sides of the field 
 }
 
 void movemogo(int x, bool b)
@@ -75,54 +73,6 @@ void moveclamp(int x, bool b)
 	clamp.move_velocity(0);
 }
 
-void edit() {
-	movemogo(200, false);
-	chassis->moveDistanceAsync(-75_in);
-	pros::delay(2200);
-	movemogo(200, false);
-}
-
-void basic(){
-	chassis->moveDistanceAsync(5.75_ft);
-	movemogo(200, false);
-	chassis->waitUntilSettled();
-	movemogo(200,true);
-	chassis->moveDistanceAsync(-2_ft);
-	movemogo(200, false);
-	chassis->waitUntilSettled();
-}
-
-void tarunAuton()
-{
-	chassis->moveDistanceAsync(-5.75_ft);
-	mogoLift.move_velocity(-200);
-	chassis->waitUntilSettled();
-	mogoLift.move_velocity(200);
-	chassis->turnAngle(45_deg);
-	chassis->moveDistanceAsync(1.5_ft);
-	mogoLift.move_velocity(-200);
-	chassis->waitUntilSettled();
-	clamp.move_velocity(-50);
-	rightFourBar.move_velocity(200);
-	chassis->turnAngle(45_deg);
-	rightFourBar.move_velocity(-200);
-	clamp.move_velocity(50);
-}
-
-
-void skills20pt()
-{
-	chassis->moveDistance(6_ft);
-	chassis->turnAngle(20_deg);
-}
-
-void skills40pt()
-{
-	chassis->moveDistance(2.25_ft);
-	chassis->turnAngle(45_deg);
-	chassis->moveDistance(7_ft);
-}
-
 void skills()
 {
 
@@ -132,10 +82,10 @@ void skills()
 	// rightFront.set_voltage_limit(8);
 
 	movemogo(1.95, false);
-	chassis->moveDistanceAsync(-1_ft);
+	chassis->moveDistanceAsync(-1.5_ft);
 	pros::delay(1000);
 	movemogo(2, true);
-	chassis->moveDistance(0.5_ft);
+	chassis->moveDistance(1_ft);
 	chassis->turnAngle(65_deg);//38
 	chassis->moveDistanceAsync(6_ft);
 	pros::delay(3000);
@@ -153,14 +103,18 @@ void skills()
 	moveclamp(2, false);
 }
 
+void rightAuton()
+{
+	chassis->moveDistance(0.5_ft);
+	chassis->turnAngle(-30.5_deg);
+	chassis->moveDistance(3.15_ft);
+	pros::delay(500);
+	moveclamp(2, false);
+}
+
 void autonomous() 
 {
-	//basic();
-	//skills20pt();
-	//skills40pt();
-
-	//drivePID(chassis);
-	//skills();
+	rightAuton();
 }
 
 void opcontrol() 
