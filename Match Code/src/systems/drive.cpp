@@ -38,10 +38,10 @@ void setDriveMotors()
     double rB = 0;
     double rF = 0;
 
-    lB = (leftJoystickY + rightJoystickX) * (160/127); //200
-    lF = (leftJoystickY + rightJoystickX) * (160/127); //200
-    rB = (-leftJoystickY + rightJoystickX) * (160/127); //200
-    rF = (-leftJoystickY + rightJoystickX) * (160/127); //200
+    lB = (leftJoystickY + rightJoystickX) * (130/127); //200
+    lF = (leftJoystickY + rightJoystickX) * (130/127); //200
+    rB = (-leftJoystickY + rightJoystickX) * (130/127); //200
+    rF = (-leftJoystickY + rightJoystickX) * (130/127); //200
 
     setDrive(lB, rB, lF, rF);
 }

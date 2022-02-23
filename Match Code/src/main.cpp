@@ -39,6 +39,7 @@ void initialize() {
 	rightFourBar.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	mogoLift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	clamp.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	clamp.move_velocity(-50);
 }
 
 void movemogo(int x, bool b)
@@ -103,23 +104,40 @@ void skills()
 	moveclamp(2, false);
 }
 
-void rightAuton()
+void turnRightAuton()
 {
-	chassis->moveDistance(0.5_ft);
-	chassis->turnAngle(-30.5_deg);
-	chassis->moveDistance(3.15_ft);
-	pros::delay(500);
+	//align the right side of bot with edge of first time
+	rightFourBar.move_velocity(-10);
+	pros::delay(20);
+	chassis->moveDistance(1_ft);
+	chassis->turnAngle(-32_deg);
+	chassis->moveDistance(3.4_ft);
+	//pros::delay(100);
 	moveclamp(2, false);
+	chassis->moveDistance(-3_ft);
+	moveclamp(2, true);
+	chassis->moveDistance(-0.5_ft);
+}
+
+void straightRightAuton()
+{
+	rightFourBar.move_velocity(-10);
+	pros::delay(20);
+	chassis->moveDistance(4_ft);
+	moveclamp(2, false);
+	chassis->moveDistance(-3_ft);
+	moveclamp(2, true);
+	chassis->moveDistance(-1_ft);
 }
 
 void autonomous() 
 {
-	rightAuton();
+	straightRightAuton();
+	//skills();
 }
 
 void opcontrol() 
 {
-	//autonomous();
 	// translate(500, 500);
 	while (true) 
 	{
