@@ -27,7 +27,7 @@ void setDriveMotors()
 {
     //power equation with voltage for drive motors
     double leftJoystickY = -controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y); // * (200/127);
-    double rightJoystickX = -controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X); // * (200/127);
+    double rightJoystickX = -controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) * 0.8; // * (200/127);
 
     if (abs(leftJoystickY) < 20) leftJoystickY = 0;
     if (abs(rightJoystickX) < 20) rightJoystickX = 0;
@@ -38,10 +38,10 @@ void setDriveMotors()
     double rB = 0;
     double rF = 0;
 
-    lB = (leftJoystickY + rightJoystickX) * (130/127); //200
-    lF = (leftJoystickY + rightJoystickX) * (130/127); //200
-    rB = (-leftJoystickY + rightJoystickX) * (130/127); //200
-    rF = (-leftJoystickY + rightJoystickX) * (130/127); //200
+    lB = (leftJoystickY + rightJoystickX) * (135/127); //200
+    lF = (leftJoystickY + rightJoystickX) * (135/127); //200
+    rB = (-leftJoystickY + rightJoystickX) * (135/127); //200
+    rF = (-leftJoystickY + rightJoystickX) * (135/127); //200
 
     setDrive(lB, rB, lF, rF);
 }

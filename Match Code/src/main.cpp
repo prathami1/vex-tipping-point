@@ -29,7 +29,13 @@ std::shared_ptr<okapi::ChassisController> chassis = ChassisControllerBuilder()
 			{4_in, 14.4_in},
 			static_cast<int32_t>(imev5GreenTPR)
 		}
-	).withMaxVelocity(125)
+	)
+	.withGains(
+		{0.001, 0, 0.0001}, // Distance controller gains
+        {0.001, 0, 0.000}, // Turn controller gains
+        {0.001, 0, 0.0001}  // Angle controller gains (helps drive straight)
+	)
+	.withMaxVelocity(125)
 	.build();
 
 void initialize() {
@@ -49,7 +55,6 @@ void movemogo(int x, bool b)
 	{
 		mogoLift.move_velocity(-100);
 		pros::delay(x * 1000);
-		
 	}
 	else if (!b)
 	{
@@ -59,8 +64,9 @@ void movemogo(int x, bool b)
 	mogoLift.move_velocity(0);
 }
 
-void moveclamp(int x, bool b) 
+void moveclamp(double x, bool b) 
 {
+	//down is false, up is true
 	if (b) 
 	{
 		clamp.move_velocity(100);
@@ -74,20 +80,33 @@ void moveclamp(int x, bool b)
 	clamp.move_velocity(0);
 }
 
-void skills()
+void moveFourBar(double x, bool b) 
 {
+	//down is false, up is true
+	if (b) 
+	{
+		rightFourBar.move_velocity(100);
+		pros::delay(x * 1000);
+		
+	} else if (!b) 
+	{
+		rightFourBar.move_velocity(-100);
+		pros::delay(x * 1000);
+	}
+	rightFourBar.move_velocity(0);
+}
 
-	// leftBack.set_voltage_limit(8);
-	// leftFront.set_voltage_limit(8);
-	// rightBack.set_voltage_limit(8);
-	// rightFront.set_voltage_limit(8);
-
-	movemogo(1.95, false);
-	chassis->moveDistanceAsync(-1.5_ft);
-	pros::delay(1000);
-	movemogo(2, true);
+void skills80pt()
+{
+	rightFourBar.move_velocity(-10);
+	pros::delay(20);
+	movemogo(2.7, false);
+	chassis->moveDistanceAsync(-1.2_ft);
+	//pros::delay(250);
+	movemogo(1.4, true);
+	movemogo(1, true);
 	chassis->moveDistance(1_ft);
-	chassis->turnAngle(65_deg);//38
+	chassis->turnAngle(80_deg);//38
 	chassis->moveDistanceAsync(6_ft);
 	pros::delay(3000);
 	chassis->moveDistance(-0.5_ft);
@@ -102,6 +121,34 @@ void skills()
 	chassis->turnAngle(-50_deg);
 	chassis->moveDistance(4_ft);
 	moveclamp(2, false);
+}
+
+void skills()
+{
+	// lowering four bar for neutral mobile goal pickup
+	rightFourBar.move_velocity(-10);
+	pros::delay(20);
+
+	// moving mobile goal before picking up 
+	movemogo(2.7, false);
+	chassis->moveDistance(-1.4_ft);
+	//pros::delay(250);
+
+	// picking up mobile goal and moving back, securing mobile goal in bot
+	movemogo(1, true);
+	chassis->moveDistanceAsync(1_ft);
+	movemogo(1, true);
+
+	// turning, moving, and clamping onto neutral mobile goal
+	chassis->turnAngle(87_deg);//38
+	chassis->moveDistance(4.2_ft);
+	moveclamp(2, false);
+
+	// turning, moving and preparing to stack mobile goal
+	moveFourBar(1.5, true); // turn 4-bar before turning to avoid interference
+	chassis->turnAngle(30_deg);
+	moveFourBar(1, true);
+	chassis->moveDistance(3_ft);
 }
 
 void turnRightAuton()
@@ -119,21 +166,30 @@ void turnRightAuton()
 	chassis->moveDistance(-0.5_ft);
 }
 
-void straightRightAuton()
+void auton20pt()
 {
 	rightFourBar.move_velocity(-10);
 	pros::delay(20);
 	chassis->moveDistance(4_ft);
-	moveclamp(2, false);
-	chassis->moveDistance(-3_ft);
-	moveclamp(2, true);
-	chassis->moveDistance(-1_ft);
+	moveclamp(1, false);
+	chassis->moveDistance(-4.5_ft);
+	// moveclamp(2, true);
+	// chassis->moveDistance(-1_ft);
 }
 
-void autonomous() 
+void PIDPractice()
 {
-	straightRightAuton();
-	//skills();
+	//degrees are off by 15 (they are 15 degrees more than what we code, so 90 degrees in code is 105 degrees for the bot turning)
+	chassis->moveDistance(4_ft);
+	chassis->turnAngle(75_deg);
+	chassis->moveDistance(4_ft);
+}
+
+void autonomous()
+{
+	//auton20pt();
+	//PIDPractice();
+	skills(); 
 }
 
 void opcontrol() 
