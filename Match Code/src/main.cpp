@@ -157,10 +157,26 @@ void skills()
 	moveFourBar(0.8, false);
 	moveclamp(1, true);
 	moveFourBar(0.5, true);
-	//movemogo();
-	//chassis->moveDistance(-1_ft);
 
-	//next step
+	//prepping mogo and moving back
+	movemogo(1, false);
+	chassis->moveDistanceAsync(-1_ft);
+	moveclamp(1, false);
+	moveFourBar(2, false);
+
+	//turning bot to face right mogo
+	chassis->turnAngle(96_deg);
+
+	//letting go of back mogo and pushing middle neutral to other side
+	movemogo(1, false);
+	moveclamp(2, true);
+	chassis->moveDistance(6_ft);
+
+	//turn and push neutral mogo to other side
+	chassis->turnAngle(25_deg);
+	movemogo(2, true);
+	chassis->moveDistance(-5_ft);
+
 }
 
 void autonomous()
