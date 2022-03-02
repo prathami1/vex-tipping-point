@@ -96,62 +96,7 @@ void moveFourBar(double x, bool b)
 	rightFourBar.move_velocity(0);
 }
 
-void skills80pt()
-{
-	rightFourBar.move_velocity(-10);
-	pros::delay(20);
-	movemogo(2.7, false);
-	chassis->moveDistanceAsync(-1.2_ft);
-	//pros::delay(250);
-	movemogo(1.4, true);
-	movemogo(1, true);
-	chassis->moveDistance(1_ft);
-	chassis->turnAngle(80_deg);//38
-	chassis->moveDistanceAsync(6_ft);
-	pros::delay(3000);
-	chassis->moveDistance(-0.5_ft);
-	chassis->turnAngle(-45_deg);
-	movemogo(1.8, false);
-	pros::delay(5);
-	chassis->moveDistance(-0.5_ft);
-	chassis->moveDistanceAsync(01_ft);
-	pros::delay(500);
-	moveclamp(2, false);
-	chassis->moveDistance(-0.1_ft);
-	chassis->turnAngle(-50_deg);
-	chassis->moveDistance(4_ft);
-	moveclamp(2, false);
-}
-
-void skills()
-{
-	// lowering four bar for neutral mobile goal pickup
-	rightFourBar.move_velocity(-10);
-	pros::delay(20);
-
-	// moving mobile goal before picking up 
-	movemogo(2.7, false);
-	chassis->moveDistance(-1.4_ft);
-	//pros::delay(250);
-
-	// picking up mobile goal and moving back, securing mobile goal in bot
-	movemogo(1, true);
-	chassis->moveDistanceAsync(1_ft);
-	movemogo(1, true);
-
-	// turning, moving, and clamping onto neutral mobile goal
-	chassis->turnAngle(87_deg);//38
-	chassis->moveDistance(4.2_ft);
-	moveclamp(2, false);
-
-	// turning, moving and preparing to stack mobile goal
-	moveFourBar(1.5, true); // turn 4-bar before turning to avoid interference
-	chassis->turnAngle(30_deg);
-	moveFourBar(1, true);
-	chassis->moveDistance(3_ft);
-}
-
-void turnRightAuton()
+void turnAuton20pt()
 {
 	//align the right side of bot with edge of first time
 	rightFourBar.move_velocity(-10);
@@ -177,18 +122,50 @@ void auton20pt()
 	// chassis->moveDistance(-1_ft);
 }
 
-void PIDPractice()
+void skills()
 {
-	//degrees are off by 15 (they are 15 degrees more than what we code, so 90 degrees in code is 105 degrees for the bot turning)
-	chassis->moveDistance(4_ft);
-	chassis->turnAngle(75_deg);
-	chassis->moveDistance(4_ft);
+	// lowering four bar for neutral mobile goal pickup
+	rightFourBar.move_velocity(-10);
+	pros::delay(20);
+
+	// moving mobile goal before picking up 
+	movemogo(2.7, false);
+	chassis->moveDistance(-1.4_ft);
+	//pros::delay(250);
+
+	// picking up mobile goal and moving back, securing mobile goal in bot
+	movemogo(1, true);
+	chassis->moveDistanceAsync(1_ft);
+	movemogo(1, true);
+
+	// turning, moving, and clamping onto neutral mobile goal
+	//chassis->turnAngle(87_deg);//38
+	chassis->turnAngle(82_deg);//38
+	chassis->moveDistance(4.2_ft);
+	moveclamp(2, false);
+
+	// turning, moving and preparing to stack mobile goal
+	moveFourBar(1.5, true); // turn 4-bar before turning to avoid interference
+	chassis->turnAngle(38_deg);
+	moveFourBar(1, true);	
+	chassis->moveDistance(2_ft);
+	chassis->turnAngle(-10_deg);
+	chassis->moveDistance(0.8_ft);
+	chassis->turnAngle(-13_deg);
+
+	//stacking mobile goal and moving away from platform
+	moveFourBar(0.8, false);
+	moveclamp(1, true);
+	moveFourBar(0.5, true);
+	//movemogo();
+	//chassis->moveDistance(-1_ft);
+
+	//next step
 }
 
 void autonomous()
 {
 	//auton20pt();
-	//PIDPractice();
 	skills(); 
 }
 
