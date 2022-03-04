@@ -1,8 +1,7 @@
 #include "main.h"
 
 void setFourBarMotors(int motor) {
-    // leftFourBar = motor;
-    rightFourBar = motor;
+    fourBar = motor;
 }
 
 void setFourBar() {
@@ -25,15 +24,14 @@ void setFourBar() {
     if (down != 0 && up == 0) {
         m = -100;
 
-        // if (rightFourBar.get_position() > 1.5) m = 0;
+        // if (fourBar.get_position() > 1.5) m = 0;
 
         setFourBarMotors(m);
     }
 
     if (down == 0 && up == 0) 
     {
-        // leftFourBar.move_velocity(0);
-        rightFourBar.move_velocity(0);
+        fourBar.move_velocity(0);
     }
     else
     {

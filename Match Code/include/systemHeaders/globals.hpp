@@ -9,8 +9,7 @@ extern pros::Motor rightBack;
 //system motors
 extern pros::Motor mogoLift;
 
-extern pros::Motor leftFourBar;
-extern pros::Motor rightFourBar;
+extern pros::Motor fourBar;
 
 extern pros::Motor clamp;
 

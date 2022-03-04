@@ -27,7 +27,7 @@ void setDriveMotors()
 {
     //power equation with voltage for drive motors
     double leftJoystickY = -controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y); // * (200/127);
-    double rightJoystickX = -controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) * 0.8; // * (200/127);
+    double rightJoystickX = -controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X) * 0.7; // * (200/127);
 
     if (abs(leftJoystickY) < 20) leftJoystickY = 0;
     if (abs(rightJoystickX) < 20) rightJoystickX = 0;
